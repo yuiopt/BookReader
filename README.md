@@ -10,6 +10,10 @@
 
 demo下载：[任阅.apk](https://github.com/JustWayward/BookReader/raw/master/体验demo/任阅-20170129.apk)
 
+RN版本：[simplereader](https://github.com/jsntjinjin/simplereader)
+
+**目前相对没时间维护任阅，写作阅读社区一体化，请移步 [言士创作](http://www.coolapk.com/apk/com.yanshi.writing)，人人都是小说家，欢迎下载体验！**
+
 ## TODO
 * [ ] txt阅读优化模拟翻书效果，提高分页速度以及分页准确性
 
