@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.justwayward.reader"
@@ -13,24 +13,10 @@ android {
         versionName "1.0"
     }
 
-    signingConfigs {
-        release {
-            storeFile file(KEYSTORE_FILE)
-            storePassword KEYSTORE_PWD
-            keyAlias KEY_ALIAS
-            keyPassword KEY_PWD
-        }
-    }
-
     buildTypes {
-        debug {
-            signingConfig signingConfigs.release
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
 

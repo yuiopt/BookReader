@@ -55,6 +55,7 @@ public class BookReadPresenter extends RxPresenter<BookReadContract.View>
 
     @Override
     public void getBookMixAToc(final String bookId, String viewChapters) {
+
         String key = StringUtils.creatAcacheKey("book-toc", bookId, viewChapters);
         Observable<BookMixAToc.mixToc> fromNetWork = bookApi.getBookMixAToc(bookId, viewChapters)
                 .map(new Func1<BookMixAToc, BookMixAToc.mixToc>() {

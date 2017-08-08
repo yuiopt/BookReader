@@ -32,6 +32,7 @@ public class BookMixAToc extends Base {
      * link:http://vip.zhuishushenqi.com/toc/577e528e2160421a02d7380d
      */
     public mixToc mixToc;
+
     public static class mixToc implements Serializable {
         public String _id;
         public String book;

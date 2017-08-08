@@ -170,7 +170,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     @Bind(R.id.gvTheme)
     GridView gvTheme;
 
-    private View decodeView;
+    private View decorView;
 
     @Inject
     BookReadPresenter mPresenter;
@@ -295,7 +295,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     @Override
     public void configViews() {
         hideStatusBar();
-        decodeView = getWindow().getDecorView();
+        decorView = getWindow().getDecorView();
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mLlBookReadTop.getLayoutParams();
         params.topMargin = ScreenUtils.getStatusBarHeight(this) - 2;
         mLlBookReadTop.setLayoutParams(params);
@@ -317,6 +317,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
             gone(mTvBookReadCommunity, mTvBookReadChangeSource, mTvBookReadDownload);
             return;
         }
+        //从网络加载图书章节
         mPresenter.getBookMixAToc(bookId, "chapters");
     }
 
@@ -429,12 +430,17 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
         }
     }
 
+    /**
+     * 开始阅读
+     *
+     * @param data
+     * @param chapter
+     */
     @Override
     public synchronized void showChapterRead(ChapterRead.Chapter data, int chapter) { // 加载章节内容
         if (data != null) {
             CacheManager.getInstance().saveChapterFile(bookId, chapter, data);
         }
-
         if (!startRead) {
             startRead = true;
             currentChapter = chapter;
@@ -468,13 +474,13 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     private synchronized void hideReadBar() {
         gone(mTvDownloadProgress, mLlBookReadBottom, mLlBookReadTop, rlReadAaSet, rlReadMark);
         hideStatusBar();
-        decodeView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
     }
 
     private synchronized void showReadBar() { // 显示工具栏
         visible(mLlBookReadBottom, mLlBookReadTop);
         showStatusBar();
-        decodeView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     private synchronized void toggleReadBar() { // 切换工具栏 隐藏/显示 状态
@@ -551,7 +557,6 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
                 : R.drawable.ic_menu_mode_night_manual);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         mTvBookReadMode.setCompoundDrawables(null, drawable, null, null);
-
         ThemeManager.setReaderTheme(curTheme, mRlBookReadRoot);
     }
 
@@ -774,7 +779,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case 1:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     BookSource bookSource = (BookSource) data.getSerializableExtra("source");
                     bookId = bookSource._id;
                 }
@@ -925,12 +930,10 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-
         }
     }
 
